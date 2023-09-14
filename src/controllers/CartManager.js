@@ -40,16 +40,30 @@ writeCarts = async(carts) => {
         return cartById
     };
 
+    
+
     addProductInCart = async (cartId, productId) => {
         let cartById = await this.exist(cartId)
         if (!cartById) return "Carrito no existe"
         let productById = await ProductALL.exist(productId)
         if(!cartById) return "No se encuentra producto"
-        let cartsAll = await this.readCarts()
-        let cartFilter = cartsAll.filter(prod => prod.id !== productId)
-        let cartsConcat = [{id:cartId, products : [{id:productById.id, quantity: 1}]}, ...cartFilter]
+
+        let cartsAll = await this.readCarts();
+        let cartFilter = cartsAll.filter((cart) => cart.id !== cartId)
+
+        if(cartById.products.some((prod) => prod.id === productId)){
+            let moreproductInCart = cartById.products.find((prod) => prod.id === productId)
+            moreproductInCart.quantity++;
+            console.log(moreproductInCart.quantity);
+            let cartsConcat = [cartById, ...cartFilter]
+            await this.writeCarts(cartsConcat)
+            return "Producto sumado en el carrito"
+        }
+
+        cartById.products.push({id:productById.id, quantity: 1})
+        let cartsConcat = [cartById, ...cartFilter];
         await this.writeCarts(cartsConcat)
-        return "Producto agregado :)"
+        return "Producto en el carrito :)"
 
     };
 }
