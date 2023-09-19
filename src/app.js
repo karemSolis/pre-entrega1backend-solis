@@ -5,11 +5,16 @@ import { engine } from "express-handlebars";
 import * as path from "path"
 import __dirname from "./utils.js";
 import ProductManager from "./controllers/ProductManager.js";
+import { Server } from 'socket.io'
 
 const app = express();
-const PORT = 8080;
+const httpServer = app.listen(8080, () => console.log( "servidor en el puerto 8080" ));
 
-const product = new ProductManager(); /*esta variable la copiamos de product.routes, pero es de ProductManager y 
+const socketServer = new Server(httpServer);  
+
+
+
+const product = new ProductManager(); /*esta variable es la copia de product.routes, pero es de ProductManager y 
 todas sus funcionalidades. averiguar + */
 
 
@@ -45,7 +50,5 @@ app.use("/api/cart", CartRouter)
 
 
 
-app.listen(PORT, () =>{
-    console.log(`Servidor express funcionando en el puerto ${PORT}`);
-})
+
 
