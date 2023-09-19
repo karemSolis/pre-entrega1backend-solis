@@ -7,15 +7,15 @@ const product = new ProductManager();
 
 const productRouter = Router();
 
+/*esta function nos devuelve todos los productos*/
+productRouter.get("/", async (req, res)=>{
+    res.send(await product.getProducts()) 
+})
+
 productRouter.get("/:id", async (req, res) => {
     let id = req.params.id;
     res.send(await product.getProductsById(id));
 });
-
-
-productRouter.get("/", async (req, res)=>{
-    res.send(await product.getProducts())
-})
 
 
 productRouter.post("/", async (req, res) =>{
