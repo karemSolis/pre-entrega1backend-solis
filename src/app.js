@@ -1,16 +1,17 @@
-import express from "express";
+import express from "express"; //importación de express
 import productRouter from "./router/product.routes.js";
 import CartRouter from "./router/cart.routes.js";
-import { engine } from "express-handlebars";
-import * as path from "path"
-import __dirname from "./utils.js";
+import { engine } from "express-handlebars"; /*importación de módulo express-handlebars, osea la biblio para usar motores de plantillas handlebars con express */
+import * as path from "path" /*importación del módulo path de node.js, entrega utilidades para trabajar con rutas de archivos y directorios */
+import __dirname from "./utils.js"; /*importación de la variable __dirname desde el archivo utils.js*/
 import ProductManager from "./controllers/ProductManager.js";
-import { Server } from 'socket.io'
+import { Server } from 'socket.io' //importación de librería socket.io
 
-const app = express();
-const httpServer = app.listen(8080, () => console.log( "servidor en el puerto 8080" ));
+const app = express(); //aquí la creación de la instancia de la apli express
+const httpServer = app.listen(8080, () => console.log( "servidor en el puerto 8080" )); //definición del puerto http
 
-const socketServer = new Server(httpServer);  
+const socketServer = new Server(httpServer);  /*definición de la librería socket.io la cual permite habilitar la camunicación en tiempo real 
+entre un servidor (backend) y un cliente (fronted) */
 
 
 
@@ -39,7 +40,7 @@ app.use("/", express.static(__dirname + "/public")) /*con __dirname le índico q
 
 app.get("/", async(req, res) =>{ 
     let products = await product.getProducts()/*gracias a la constante product copiada y pegada desde product.router puedo reutilizar funciones de rutas hechas ahí */
-    res.render("partials/home", { /*este render nos renderizará el archivo handlebars en main, pero a través de lo que hagamos en home */
+    res.render("home", { /*este render nos renderizará el archivo handlebars en main, pero a través de lo que hagamos en home */
         title: "handlebars y websockets",
         products: products,
     })

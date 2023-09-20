@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Productos</title>
+</head>
+<body>
+ <h1>Ingreso de productos</h1>
+    <form id="productForm"> 
+        <label for="producto">Producto</label>
+        <input type="text" id="producto">
+        <label for="descripcion">Descripción</label>
+        <input type="text" id="descripcion">
+        <label for="valor">Precio</label>
+        <input type="text" id="valor">
+        <label for="id">Código id:</label>
+        <input type="text" id="id">
+        <button type="button" onclick="addProduct()">Agregar Producto</button>
+    </form>
+
+    <h1>Lista de Productos</h1>
+    <ul id="productList">
+        {{#each products}}
+        <li>
+            <h2>{{producto}}</h2>
+            <p>Descripción: {{descripcion}}</p>
+            <p>Precio: ${{valor}}</p>
+            <p>Código id: {{id}}</p>
+        </li>
+        {{/each}}
+    </ul>
+</body>
+</html>
+
+
+<script src="/js/realTimeProducts.js" ></script>

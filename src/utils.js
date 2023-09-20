@@ -10,4 +10,4 @@ la ruta absoluta del directorio actual. */
 
 export  default __dirname //y al final se exporta para que desde otros mod se pueda acceder a esta ruta abs.
 
-//con todo esto puedo decirle al servidor donde encontrar los archivos desde app.js. 
+//con todo esto puedo decirle al servidor donde encontrar los archivos desde app.js y servirá en todas las partes donde necesite __dirname
