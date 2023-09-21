@@ -9,40 +9,28 @@ import { Server } from 'socket.io' //importación de librería socket.io
 
 const app = express(); //aquí la creación de la instancia de la apli express
 const httpServer = app.listen(8080, () => console.log( "servidor en el puerto 8080" )); //definición del puerto http
-
-const socketServer = new Server(httpServer);  /*definición de la librería socket.io la cual permite habilitar la camunicación en tiempo real 
-entre un servidor (backend) y un cliente (fronted) */
-
-
-socketServer.on("connection", socket => { //establece una conexión 
-    console.log("Un usuario conectado")
-
-    socket.on("message", data => {
-        console.log(data)
-    })
-
-    socket.on("newProd", (newProduct) => {
-        product.addProducts(newProduct)
-        socketServer.emit("success", "Producto Agregado Correctamente");
-    });
-
-    socket.emit("test","Servidor: Validación en consola del navegador")
-
-})
-
-
-
-
-
 const product = new ProductManager(); /*esta variable es la copia de product.routes, pero es de ProductManager y 
 todas sus funcionalidades. averiguar + */
 
+const socketServer = new Server(httpServer);  /*definición de la librería socket.io la cual permite habilitar la camunicación en tiempo real 
+entre un servidor (backend) y un cliente (fronted) */
 
 //middleware 
 
 //analizarán solicitudes HTTP entrantes y los convertirán en formato json o url 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+
+
+socketServer.on("connection", socket => { //establece una conexión 
+    console.log("Un usuario conectado")
+
+        socket.on("message", data=>{
+        console.log(data);
+     })
+})
+
+
 
 //estos middlewars son toda la extructura de handlebars
 app.engine("handlebars", engine());  /*acá le digo al servidor que usaremos M.P.handlebars para el uso de express y que será a 
@@ -64,6 +52,8 @@ app.get("/", async(req, res) =>{
         products: products,
     })
 })
+
+app.use("/realtimeproducts", productRouter)
 
 
 

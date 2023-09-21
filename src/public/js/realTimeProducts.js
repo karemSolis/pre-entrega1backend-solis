@@ -1,13 +1,13 @@
-// alert("advertencia, mi creadora está aprendiendo");
+alert("advertencia, mi creadora está aprendiendo"); //el alert funciona
 
-const socket = io();
-
-
-
+const socket = io(); //no funciona aún
+socket.emit('messaje', 'hola, me estoy comunicando desde un websocket')
 
 
 
 
 
-<script src="/socket.io/sacket.io.js"></script>;
-<script src="/js/realTimeProducts.js" ></script>;
+
+
+
+
