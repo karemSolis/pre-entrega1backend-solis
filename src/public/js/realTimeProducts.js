@@ -1,4 +1,6 @@
-alert("advertencia, mi creadora está aprendiendo");
+// alert("advertencia, mi creadora está aprendiendo");
+
+const socket = io();
 
 
 

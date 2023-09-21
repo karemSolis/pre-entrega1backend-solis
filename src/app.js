@@ -14,6 +14,25 @@ const socketServer = new Server(httpServer);  /*definición de la librería sock
 entre un servidor (backend) y un cliente (fronted) */
 
 
+socketServer.on("connection", socket => { //establece una conexión 
+    console.log("Un usuario conectado")
+
+    socket.on("message", data => {
+        console.log(data)
+    })
+
+    socket.on("newProd", (newProduct) => {
+        product.addProducts(newProduct)
+        socketServer.emit("success", "Producto Agregado Correctamente");
+    });
+
+    socket.emit("test","Servidor: Validación en consola del navegador")
+
+})
+
+
+
+
 
 const product = new ProductManager(); /*esta variable es la copia de product.routes, pero es de ProductManager y 
 todas sus funcionalidades. averiguar + */
@@ -37,7 +56,7 @@ es una ruta absoluta al directorio de vistas que utiliza __dirname que he import
 //middleware para archivos estáticos
 app.use("/", express.static(__dirname + "/public")) /*con __dirname le índico que en puclic estarán los archivos estáticos como el style.css*/
 
-
+//ruta a la página principal 
 app.get("/", async(req, res) =>{ 
     let products = await product.getProducts()/*gracias a la constante product copiada y pegada desde product.router puedo reutilizar funciones de rutas hechas ahí */
     res.render("home", { /*este render nos renderizará el archivo handlebars en main, pero a través de lo que hagamos en home */
@@ -45,6 +64,8 @@ app.get("/", async(req, res) =>{
         products: products,
     })
 })
+
+
 
 app.use("/products", productRouter)
 app.use("/api/cart", CartRouter)

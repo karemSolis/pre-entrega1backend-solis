@@ -19,23 +19,33 @@
         <button type="button" onclick="addProduct()">Agregar Producto</button>
     </form>
 
-    <h1>Lista de Productos</h1>
-    <ul id="productList">
-        {{#each products}}
-        <li>
-            <h2>{{producto}}</h2>
-            <p>Descripción: {{descripcion}}</p>
-            <p>Precio: ${{valor}}</p>
-            <p>Código id: {{id}}</p>
-        </li>
-        {{/each}}
-    </ul>
+    <div id="productList">
+    <table>
+        <thead>
+            <tr>
+            <th>Producto</th>
+            <th>Descripción:</th>
+            <th>Precio</th>
+            <th>Código id</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+            <tr>
+                <td>{{producto}}</td>
+                <td>{{descripcion}}</td>
+                <td>${{valor}}</td>
+                <td>{{id}}</td>
+            </tr>
+            {{/each}} {{!-- Súper importante, no me funcionaba la tabla porq no había cerrado el each --}}
+            
+        </tbody>
+    </table>
+</div>
 
 </body>
 </html>
 
 
 <script src="/js/realTimeProducts.js" ></script>
-
-
 <script src="/js/realTimeProducts.js" ></script>

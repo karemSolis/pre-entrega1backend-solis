@@ -5,3 +5,17 @@ otro factor en tiempo real*/
 body {
     background-color: grey;
     }
+
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+        
