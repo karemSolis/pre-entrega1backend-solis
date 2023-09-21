@@ -17,21 +17,7 @@ entre un servidor (backend) y un cliente (fronted) */
 socketServer.on("connection", socket => { //establece una conexión 
     console.log("Un usuario conectado")
 
-    socket.on("message", data => {
-        console.log(data)
-    })
-
-    socket.on("newProd", (newProduct) => {
-        product.addProducts(newProduct)
-        socketServer.emit("success", "Producto Agregado Correctamente");
-    });
-
-    socket.emit("test","Servidor: Validación en consola del navegador")
-
 })
-
-
-
 
 
 const product = new ProductManager(); /*esta variable es la copia de product.routes, pero es de ProductManager y 
