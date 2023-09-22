@@ -10,19 +10,9 @@ import { Server } from 'socket.io' //importación de librería socket.io
 const app = express(); //aquí la creación de la instancia de la apli express
 const httpServer = app.listen(8080, () => console.log( "servidor en el puerto 8080" )); //definición del puerto http
 
-const socketServer = new Server(httpServer);  /*definición de la librería socket.io la cual permite habilitar la camunicación en tiempo real
-entre un servidor (backend) y un cliente (fronted) */
-
-
-socketServer.on("connection", socket => { //establece una conexión
-    console.log("Un usuario conectado")
-
-    socket.on("message", data => {
-        console.log(data)
-    })
-
-})
-
+const socket = new Server(httpServer);  /*definición de la librería socket.io la cual permite habilitar la camunicación en tiempo real
+entre un servidor (backend) y un cliente (fronted), se crea un servidor que funciona a través de socket con el servidor que ya creamos. */
+/*PUEDO VER SI ESTÁ CONECTADO EL FRONT CON SOCKET.IO COLOCANDO EN EL NAVEGADOR http://localhost:8080/socket.io/socket.io.js*/
 
 const product = new ProductManager(); /*esta variable es la copia de product.routes, pero es de ProductManager y
 todas sus funcionalidades. averiguar + */
@@ -35,15 +25,26 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 
-socketServer.on("connection", socket => { //establece una conexión
-    console.log("Un usuario conectado")
+const User = {};
 
-        socket.on("message", data=>{
+socket.on("connection", (socket) => { /*establece una conexión con socketServer.on, escucha el primer mensaje iniciando comunicación y deja un primer 
+mensaje "connection" el cual se va a desprender desde socket generando una función*/
+    console.log("Un usuario conectado") /*esta función nos permite saber si el front se está conectando mediante a este console.log*/
+
+        socket.on("messaje", (data)=>{
         console.log(data);
-     })
+    })
+
+    socket.on("newProduct", productData => {
+
+        product.addProducts(productData)
+    
+        console.log("Nuevo producto recibido:", productData);
+        
+        socket.emit("productAdded", productData);
+    });
+
 })
-
-
 
 //estos middlewars son toda la extructura de handlebars
 app.engine("handlebars", engine());  /*acá le digo al servidor que usaremos M.P.handlebars para el uso de express y que será a
@@ -55,7 +56,8 @@ es una ruta absoluta al directorio de vistas que utiliza __dirname que he import
 
 
 //middleware para archivos estáticos
-app.use("/", express.static(__dirname + "/public")) /*con __dirname le índico que en puclic estarán los archivos estáticos como el style.css*/
+app.use("/", express.static(__dirname + "/public")) /*con __dirname le índico que en puclic estarán los archivos estáticos como el 
+style.css y realtimeproduct.js dentro de public*/
 
 //ruta a la página principal
 app.get("/", async(req, res) =>{

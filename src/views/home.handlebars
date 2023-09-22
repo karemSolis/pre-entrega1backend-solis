@@ -6,8 +6,21 @@
 </head>
 <body>
 
-<h1>Lista de Productos</h1>
 
+        <h1>Ingreso de productos</h1>
+    <form id="productForm"> 
+        <label for="producto">Producto</label>
+        <input type="text" id="producto">
+        <label for="descripcion">Descripción</label>
+        <input type="text" id="descripcion">
+        <label for="valor">Precio</label>
+        <input type="text" id="valor">
+        <label for="id">Código id:</label>
+        <input type="text" id="id">
+        <button type="submit">Agregar Producto</button>
+    </form>
+
+<h1>Lista de Productos</h1>
 <div id="productList">
     <table>
         <thead>
@@ -31,7 +44,6 @@
         </tbody>
     </table>
 </div>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/realTimeProducts.js"></script> 
+
 </body>
 </html>
